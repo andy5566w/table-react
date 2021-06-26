@@ -1,0 +1,18 @@
+.th {
+  color: var(--main-text-color);
+  background-color: var(--main-color);
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: var(--border-style);
+  cursor: pointer;
+  &:hover {
+    i {
+      opacity: 1;
+    }
+  }
+
+  i {
+    transition: opacity 0.2s ease-in;
+    opacity: 0;
+  }
+}

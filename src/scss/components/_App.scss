@@ -1,0 +1,11 @@
+.App {
+  max-width: 80rem;
+  margin: 2rem auto;
+
+  @include respond(big-desktop) {
+    max-width: 90rem;
+  }
+  @include respond(phone) {
+    max-width: 30rem;
+  }
+}

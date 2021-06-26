@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Table from './component/Table'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+const headers = [
+  { text: 'name', className: '' },
+  { text: 'unit', className: '' },
+  { text: 'value', className: '' },
+  { text: 'type', className: '' },
+  { text: 'handle', className: '' },
+]
+const title = 'rates'
 function App() {
+  const [apiData, setApiData] = useState({})
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get(
+        'https://api.coingecko.com/api/v3/exchange_rates'
+      )
+      setApiData(data)
+    }
+    fetchData()
+  }, [])
+  if (isObjectEmpty(apiData)) {
+    return <p>data is empty</p>
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Table headers={headers} items={apiData} title={title} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
+function isObjectEmpty(target) {
+  return (
+    !!target &&
+    (target.constructor
+      ? target.constructor === Object && Object.keys(target).length === 0
+      : Object.keys(target).length === 0)
+  )
+}
