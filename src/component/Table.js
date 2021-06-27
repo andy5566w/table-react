@@ -76,6 +76,7 @@ const tableReducer = (state, action) => {
         filtered_items = `查無${action.name}`
       return {
         ...state,
+        current_page: 0,
         filtered_items,
       }
     case 'next':
@@ -86,6 +87,7 @@ const tableReducer = (state, action) => {
       return {
         ...state,
         per_page: action.payload,
+        current_page: 0,
         total_page: Math.floor(state.items.length / action.payload),
       }
     default:

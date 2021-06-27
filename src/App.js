@@ -11,17 +11,39 @@ const headers = [
 const title = 'rates'
 function App() {
   const [apiData, setApiData] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
   useEffect(() => {
+    setIsLoading(true)
     const fetchData = async () => {
-      const { data } = await axios.get(
-        'https://api.coingecko.com/api/v3/exchange_rates'
-      )
-      setApiData(data)
+      try {
+        const { data } = await axios.get(
+          'https://api.coingecko.com/api/v3/exchange_rates'
+        )
+        setApiData(data)
+      } catch (err) {
+        console.log(err)
+        setError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
     }
     fetchData()
   }, [])
-  if (isObjectEmpty(apiData)) {
-    return <p>data is empty</p>
+
+  if (isLoading) {
+    return (
+      <div className="App">
+        <i className="las la-sync-alt loading" />
+      </div>
+    )
+  }
+  if (isObjectEmpty(apiData) || error) {
+    return (
+      <div className="App">
+        <p>查無此資料或api有誤，error message: {error?.message}</p>
+      </div>
+    )
   }
 
   return (

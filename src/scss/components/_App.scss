@@ -5,4 +5,17 @@
   @include respond(big-desktop) {
     max-width: 90rem;
   }
+  .loading {
+    @include flexCenter;
+    animation: rotate 1s forwards infinite ease-in;
+    font-size: 5rem;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
