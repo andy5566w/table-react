@@ -1,9 +1,14 @@
 @import '../scss/abstracts/mixin';
 .td {
   border: var(--border-style);
+  font-size: 1.8rem;
   padding: 1rem;
   i {
     cursor: pointer;
+  }
+
+  @include respond(tab-land) {
+    font-size: 2rem;
   }
 }
 .tr {

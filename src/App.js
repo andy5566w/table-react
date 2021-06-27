@@ -22,7 +22,6 @@ function App() {
         )
         setApiData(data)
       } catch (err) {
-        console.log(err)
         setError(err.message)
       } finally {
         setIsLoading(false)
@@ -41,7 +40,7 @@ function App() {
   if (isObjectEmpty(apiData) || error) {
     return (
       <div className="App">
-        <p>查無此資料或api有誤，error message: {error?.message}</p>
+        <p>查無此資料或api有誤，error message: {error}</p>
       </div>
     )
   }
