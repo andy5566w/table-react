@@ -2,7 +2,7 @@ import classes from './ThCell.module.scss'
 
 const ThCell = ({ headers, handleSorting, sortType }) => {
   return (
-    <thead>
+    <thead className={classes.thead}>
       <tr>
         {headers.map(({ text, className }) => (
           <th

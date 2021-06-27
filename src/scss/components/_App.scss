@@ -5,7 +5,4 @@
   @include respond(big-desktop) {
     max-width: 90rem;
   }
-  @include respond(phone) {
-    max-width: 30rem;
-  }
 }

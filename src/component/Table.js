@@ -1,11 +1,19 @@
 import ThCell from './ThCell'
 import TdCell from './TdCell'
 import SearchInput from './SearchInput'
+import Pagination from './Pagination'
 import classes from './Table.module.scss'
 import { useReducer } from 'react'
-
 const init = (props) => {
-  return { ...props, status: '', sortType: 'descending', filtered_items: [] }
+  return {
+    ...props,
+    status: '',
+    sortType: 'descending',
+    filtered_items: [],
+    current_page: 0,
+    per_page: 10,
+    total_page: 0,
+  }
 }
 
 const tableReducer = (state, action) => {
@@ -17,7 +25,11 @@ const tableReducer = (state, action) => {
         _id: Math.random().toString(16).slice(2),
       }))
 
-      return { ...state, items: _item }
+      return {
+        ...state,
+        items: _item,
+        total_page: Math.ceil(_item.length / state.per_page),
+      }
     case 'descending':
       return {
         ...state,
@@ -66,6 +78,16 @@ const tableReducer = (state, action) => {
         ...state,
         filtered_items,
       }
+    case 'next':
+      return { ...state, current_page: state.current_page + 1 }
+    case 'previous':
+      return { ...state, current_page: state.current_page - 1 }
+    case 'change_per_page':
+      return {
+        ...state,
+        per_page: action.payload,
+        total_page: Math.floor(state.items.length / action.payload),
+      }
     default:
       return { ...state }
   }
@@ -86,13 +108,9 @@ const Table = (props) => {
           handleSorting={dispatch}
           sortType={tableData.sortType}
         />
-        <TdCell
-          filtered_items={tableData.filtered_items}
-          items={tableData.items}
-          title={tableData.title}
-          handleDelete={dispatch}
-        />
+        <TdCell tableData={tableData} handleDelete={dispatch} />
       </table>
+      <Pagination tableData={tableData} handlePage={dispatch} />
     </section>
   )
 }

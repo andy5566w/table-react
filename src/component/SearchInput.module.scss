@@ -1,7 +1,11 @@
+@import '../scss/abstracts/mixin';
 .input {
   label {
     font-size: 1.5rem;
     font-weight: normal;
+    @include respond(phone) {
+      font-size: 2rem;
+    }
   }
 
   input {

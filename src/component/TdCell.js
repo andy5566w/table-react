@@ -1,6 +1,9 @@
 import classes from './TdCell.module.scss'
 
-const TdCell = ({ items, handleDelete, filtered_items }) => {
+const TdCell = ({
+  tableData: { items, filtered_items, current_page, per_page },
+  handleDelete,
+}) => {
   if (typeof filtered_items === 'string')
     return (
       <tbody>
@@ -9,32 +12,34 @@ const TdCell = ({ items, handleDelete, filtered_items }) => {
         </tr>
       </tbody>
     )
+  const body_data = []
   const arr = filtered_items.length > 0 ? filtered_items : items
-  return (
-    <tbody>
-      {arr.map((value) => {
-        return (
-          <tr key={value._id} className={classes.tr}>
-            {Object.entries(value).map(([key, t], index) => {
-              if (key === '_id')
-                return (
-                  <th key={t + index} className={classes.td}>
-                    <i
-                      className="las la-trash"
-                      onClick={() => handleDelete({ type: 'delete', id: t })}
-                    />
-                  </th>
-                )
+  arr.forEach((value, index) => {
+    if (
+      index > current_page * per_page &&
+      index <= (current_page + 1) * per_page
+    )
+      body_data.push(
+        <tr key={value._id} className={classes.tr}>
+          {Object.entries(value).map(([key, t], index) => {
+            if (key === '_id')
               return (
-                <th className={classes.td} key={t + index}>
-                  {t}
+                <th key={t + index} className={classes.td}>
+                  <i
+                    className="las la-trash"
+                    onClick={() => handleDelete({ type: 'delete', id: t })}
+                  />
                 </th>
               )
-            })}
-          </tr>
-        )
-      })}
-    </tbody>
-  )
+            return (
+              <th className={classes.td} key={t + index}>
+                {t}
+              </th>
+            )
+          })}
+        </tr>
+      )
+  })
+  return <tbody>{body_data}</tbody>
 }
 export default TdCell
