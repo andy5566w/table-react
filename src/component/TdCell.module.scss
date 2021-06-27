@@ -1,3 +1,4 @@
+@import '../scss/abstracts/mixin';
 .td {
   border: var(--border-style);
   padding: 1rem;
@@ -9,6 +10,34 @@
   transition: all 0.2s ease-in;
   &:hover {
     background-color: var(--main-text-color);
+  }
+
+  @include respond(phone) {
+    display: none;
+  }
+}
+
+.tr__mobile {
+  transition: all 0.2s ease-in;
+  border: var(--border-style);
+  padding: 1rem;
+  &:hover {
+    background-color: var(--main-text-color);
+  }
+  display: none;
+  @include respond(phone) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.td_mobile {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+
+  & > div:nth-of-type(1) {
+    font-weight: bold;
   }
 }
 
